@@ -4,32 +4,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Just.in Wedding 賈氏婚禮顧問工作室｜婚禮顧問與一日總召服務</title>
+<title>Just.in Wedding 佳時婚禮顧問工作室｜婚禮顧問與一日總召服務</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
   :root{
-    --ivory:#F6F4FB;
-    --ivory-deep:#ECE6F8;
-    --wine:#5B5A96;
-    --wine-deep:#403F72;
+    --ivory:#F8F5FF;
+    --ivory-deep:#EFE7FC;
+    --wine:#7C3AED;
+    --wine-deep:#5B21B6;
     --charcoal:#2E2B3D;
     --charcoal-soft:#6B6580;
-    --gold:#8EA0D9;
-    --gold-soft:#C7D2EF;
-    --blush:#EDE7F9;
-    --line:#DCD4EE;
+    --gold:#38BDF8;
+    --gold-soft:#BAE6FD;
+    --blush:#FCE7F3;
+    --line:#E3D8FA;
     --white:#FFFFFF;
-    --amber:#9333EA;
-    --confirmed:#4338CA;
+    --amber:#EC4899;
+    --confirmed:#6366F1;
+    --completed:#FBCFE8;
+    --completed-text:#9D174D;
+    --pink-accent:#F472B6;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--ivory);
+    background:linear-gradient(180deg, #F8F5FF 0%, #FBF0FC 30%, #FFF3F8 62%, #F8F5FF 100%);
+    background-attachment:fixed;
     color:var(--charcoal);
     font-family:'Noto Sans TC', sans-serif;
     font-weight:400;
@@ -74,13 +78,14 @@
   }
   .hero-cta{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
   .btn{
-    padding:13px 26px; border-radius:2px; border:1px solid var(--wine);
+    padding:13px 26px; border-radius:2px; border:1px solid transparent;
     font-size:.92rem; letter-spacing:.03em; text-decoration:none; display:inline-block;
-    background:var(--wine); color:var(--white); transition:background .2s, color .2s;
+    background:linear-gradient(135deg, var(--wine), var(--pink-accent)); color:var(--white);
+    transition:opacity .2s, transform .2s;
   }
-  .btn:hover{background:var(--wine-deep); border-color:var(--wine-deep);}
-  .btn.ghost{background:transparent; color:var(--wine);}
-  .btn.ghost:hover{background:var(--blush);}
+  .btn:hover{opacity:.9; transform:translateY(-1px);}
+  .btn.ghost{background:transparent; color:var(--wine); border:1px solid var(--wine);}
+  .btn.ghost:hover{background:var(--blush); opacity:1; transform:none;}
 
   .hero-motif{margin-top:44px; width:100%; max-width:560px;}
   .hero-motif path{
@@ -305,23 +310,28 @@
   .cal-cell.good-weekday:hover{opacity:.85; border-color:var(--gold);}
   .cal-cell.good-weekday .cal-date-num{color:#948FAE;}
 
-  .cal-cell.cell-confirmed, .cal-cell.cell-negotiating{
+  .cal-cell.cell-confirmed, .cal-cell.cell-negotiating, .cal-cell.cell-completed{
     border-width:0; cursor:pointer; justify-content:flex-start; gap:3px;
   }
   .cal-cell.cell-confirmed{ background:var(--confirmed); }
   .cal-cell.cell-negotiating{ background:var(--amber); }
+  .cal-cell.cell-completed{ background:var(--completed); }
   .cal-cell.cell-confirmed .cal-date-num, .cal-cell.cell-negotiating .cal-date-num{
     color:var(--white); font-weight:700;
   }
-  .cal-cell.cell-confirmed:hover, .cal-cell.cell-negotiating:hover{ opacity:.9; }
+  .cal-cell.cell-completed .cal-date-num{ color:var(--completed-text); font-weight:700; }
+  .cal-cell.cell-confirmed:hover, .cal-cell.cell-negotiating:hover, .cal-cell.cell-completed:hover{ opacity:.9; }
   .cal-status-banner{
     font-size:.85rem; font-weight:800; color:var(--white); letter-spacing:.03em;
     text-shadow:0 1px 2px rgba(0,0,0,.22);
   }
+  .cal-cell.cell-completed .cal-status-banner{ color:var(--completed-text); text-shadow:none; }
   .cal-booking-tags{display:flex; flex-direction:column; gap:2px;}
   .cal-booking-tag{display:flex; flex-direction:column; line-height:1.2;}
   .cal-booking-tag .tag-session{font-size:.75rem; font-weight:700; color:var(--white);}
   .cal-booking-tag .tag-name{font-size:.75rem; color:rgba(255,255,255,.88); letter-spacing:.03em;}
+  .cal-cell.cell-completed .cal-booking-tag .tag-session,
+  .cal-cell.cell-completed .cal-booking-tag .tag-name{ color:var(--completed-text); }
   @media (max-width:600px){
     .cal-booking-tag .tag-session, .cal-booking-tag .tag-name{font-size:.75rem;}
     .cal-status-banner{font-size:.75rem;}
@@ -352,6 +362,7 @@
   .status-pill{font-size:.75rem; padding:3px 10px; border-radius:20px; white-space:nowrap; color:var(--white);}
   .status-negotiating{background:var(--amber);}
   .status-confirmed{background:var(--confirmed);}
+  .status-completed{background:var(--completed); color:var(--completed-text);}
 
   .sheet-controls{display:flex; gap:10px; flex-wrap:wrap;}
   .admin-note{font-size:.76rem; color:var(--charcoal-soft); margin-top:14px; line-height:1.7;}
@@ -385,7 +396,7 @@
     </svg>
     <div>
       <div class="brand-name">Just.in Wedding</div>
-      <div class="brand-sub">賈氏婚禮顧問工作室</div>
+      <div class="brand-sub">佳時婚禮顧問工作室</div>
     </div>
   </div>
 </div>
@@ -394,10 +405,12 @@
   <svg class="hero-corner-bloom" viewBox="0 0 220 220" fill="none">
     <path d="M180 10 C150 30 140 70 160 100 C130 90 100 100 90 130 C110 110 140 115 155 135" stroke="var(--gold)" stroke-width="1.2"/>
     <circle cx="182" cy="12" r="5" stroke="var(--wine)" stroke-width="1.2"/>
-    <circle cx="200" cy="35" r="8" stroke="var(--gold)" stroke-width="1.2"/>
+    <circle cx="200" cy="35" r="8" fill="var(--pink-accent)" opacity=".55"/>
     <circle cx="150" cy="95" r="4" fill="var(--wine)" opacity=".5"/>
     <path d="M60 190 C80 175 95 150 90 125 M60 190 C45 175 40 155 50 135" stroke="var(--gold)" stroke-width="1.1"/>
-    <circle cx="58" cy="192" r="4" stroke="var(--wine)" stroke-width="1.1"/>
+    <circle cx="58" cy="192" r="4" stroke="var(--pink-accent)" stroke-width="1.1"/>
+    <path d="M120 30 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="var(--gold)" opacity=".7"/>
+    <path d="M35 100 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" fill="var(--pink-accent)" opacity=".7"/>
   </svg>
   <span class="hero-eyebrow"><svg viewBox="0 0 32 20" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="11" cy="10" r="7"/><circle cx="21" cy="10" r="7"/></svg>PROFESSIONAL WEDDING COORDINATOR</span>
   <h1>婚禮當天，交給熟悉每個細節的人</h1>
@@ -441,14 +454,15 @@
 
     <div class="plan-tabs-row">
       <div class="plan-tabs" id="planTabs">
-        <button class="plan-tab-btn active" data-plan="consultant">Just.in Wedding 顧問總召</button>
-        <button class="plan-tab-btn" data-plan="oneday">Just.in Wedding 一日總召</button>
+        <button class="plan-tab-btn active" data-plan="consultant">顧問總召</button>
+        <button class="plan-tab-btn" data-plan="oneday">一日總召</button>
       </div>
       <svg class="plan-tabs-bloom" viewBox="0 0 90 40" fill="none">
-        <circle cx="14" cy="20" r="7" stroke="#C7A6E8" stroke-width="1.2"/>
+        <circle cx="14" cy="20" r="7" stroke="var(--wine)" stroke-width="1.2"/>
         <circle cx="30" cy="14" r="5" stroke="var(--gold)" stroke-width="1.2"/>
-        <circle cx="44" cy="24" r="4" fill="#E7B7C9" opacity=".8"/>
+        <circle cx="44" cy="24" r="4" fill="var(--pink-accent)" opacity=".85"/>
         <path d="M4 30C20 34 40 30 55 22" stroke="var(--gold)" stroke-width="1"/>
+        <path d="M62 16 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="var(--pink-accent)" opacity=".8"/>
       </svg>
     </div>
 
@@ -456,7 +470,7 @@
       <!-- Plan 1 -->
       <div class="plan" id="plan-oneday">
         <div class="plan-tag">ONE-DAY COORDINATOR</div>
-        <div class="plan-name">Just.in Wedding 一日總召</div>
+        <div class="plan-name">一日總召</div>
         <div class="plan-desc">適合已大致確認流程、希望婚禮當天有專人執行與應變的新人。</div>
         <div class="plan-price-row">
           <span class="plan-price numeral">NT$ 12,000</span>
@@ -491,7 +505,7 @@
       <!-- Plan 2 -->
       <div class="plan featured" id="plan-consultant">
         <div class="plan-tag">FULL WEDDING CONSULTANT</div>
-        <div class="plan-name">Just.in Wedding 顧問總召</div>
+        <div class="plan-name">顧問總召</div>
         <div class="plan-desc">適合希望提早一個月就有顧問協助審視流程、對接廠商的新人。</div>
         <div class="plan-price-row">
           <span class="plan-price numeral">NT$ 15,000</span>
@@ -539,16 +553,17 @@
       <p>兩種方案的前期對接時間不同，可依籌備進度選擇最合適的服務起點。</p>
       <svg class="timeline-bloom" viewBox="0 0 200 30" fill="none">
         <path d="M0 15C40 5 60 25 100 15S160 5 200 15" stroke="var(--gold)" stroke-width="1"/>
-        <circle cx="20" cy="12" r="4" fill="#C7A6E8" opacity=".85"/>
-        <circle cx="70" cy="19" r="3" fill="#E7B7C9" opacity=".85"/>
+        <circle cx="20" cy="12" r="4" fill="var(--wine)" opacity=".8"/>
+        <circle cx="70" cy="19" r="3" fill="var(--pink-accent)" opacity=".9"/>
         <circle cx="130" cy="10" r="4" stroke="var(--wine)" stroke-width="1.2"/>
         <circle cx="180" cy="17" r="3" fill="var(--gold)" opacity=".8"/>
+        <path d="M95 4 l1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 4 -1.6z" fill="var(--pink-accent)" opacity=".85"/>
       </svg>
     </div>
 
     <div class="timeline-cols">
       <div class="timeline-col">
-        <h3>Just.in Wedding 一日總召</h3>
+        <h3>一日總召</h3>
         <div class="tl-window">前期對接窗口：婚宴前兩週</div>
         <div class="tl-item">
           <span class="tl-dot"></span>
@@ -568,7 +583,7 @@
       </div>
 
       <div class="timeline-col">
-        <h3>Just.in Wedding 顧問總召</h3>
+        <h3>顧問總召</h3>
         <div class="tl-window">前期對接窗口：婚禮前至少 1 個月</div>
         <div class="tl-item">
           <span class="tl-dot"></span>
@@ -610,8 +625,6 @@
           <button class="cal-nav-btn" id="nextMonth" aria-label="下一月">›</button>
         </div>
         <div class="cal-legend">
-          <span><span class="legend-dot" style="background:var(--amber)"></span>整格變色＝洽談中</span>
-          <span><span class="legend-dot" style="background:var(--confirmed)"></span>整格變色＝已確定</span>
           <span><span class="legend-badge">囍</span> 2027 吉日（假日）</span>
           <span>灰底＝平日或休停期間，不開放預約</span>
         </div>
@@ -643,7 +656,7 @@
     <div class="section-head">
       <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>新人福利</span>
       <h2>結婚喜慶免費賀電／賀卡／中堂申請懶人包</h2>
-      <p>這份資料僅提供給已預約 Just.in Wedding 的新人。請向顧問索取通關密碼查看完整內容。</p>
+      <p>這份資料僅提供給已預約的新人。請向顧問索取通關密碼查看完整內容。</p>
     </div>
 
     <div class="perk-gate" id="perkGate">
@@ -675,7 +688,7 @@
       <a class="btn" href="https://www.instagram.com/just.in.wedding?stkn=MXRwMWsxbmpteXh6MA==" target="_blank" rel="noopener">IG 私訊洽詢</a>
     </div>
   </div>
-  <div class="wrap foot-meta">© 2026 Just.in Wedding 賈氏婚禮顧問工作室</div>
+  <div class="wrap foot-meta">© 2026 Just.in Wedding 佳時婚禮顧問工作室</div>
 </footer>
 
 
@@ -1024,10 +1037,25 @@
   }
 
   function statusColor(status){
+    if(status === 'completed') return 'var(--completed)';
     return status === 'confirmed' ? 'var(--confirmed)' : 'var(--amber)';
   }
   function statusLabel(status){
+    if(status === 'completed') return '已完成服務';
     return status === 'confirmed' ? '已確定' : '洽談中';
+  }
+  var todayStr = dateStr(today.getFullYear(), today.getMonth(), today.getDate());
+  function isPastDate(dstr){
+    return dstr < todayStr;
+  }
+  // 已確定且日期已過 → 顯示為「已完成」
+  function effectiveStatus(status, dstr){
+    if(status === 'confirmed' && isPastDate(dstr)) return 'completed';
+    return status;
+  }
+  function statusCellClass(status){
+    if(status === 'completed') return 'cell-completed';
+    return status === 'confirmed' ? 'cell-confirmed' : 'cell-negotiating';
   }
   function sessionLabel(s){
     if(s === 'lunch') return '午宴';
@@ -1074,9 +1102,10 @@
       cell.appendChild(num);
 
       if(dayBookings.length > 0){
-        // 有預約：整格依狀態變色，並直接顯示場次與狀態
-        var topStatus = dayBookings.some(function(b){ return b.status==='confirmed'; }) ? 'confirmed' : 'negotiating';
-        cell.classList.add(topStatus === 'confirmed' ? 'cell-confirmed' : 'cell-negotiating');
+        // 有預約：整格依狀態變色，並直接顯示場次與狀態（已確定且日期已過 → 已完成）
+        var topStatusRaw = dayBookings.some(function(b){ return b.status==='confirmed'; }) ? 'confirmed' : 'negotiating';
+        var topStatus = effectiveStatus(topStatusRaw, dstr);
+        cell.classList.add(statusCellClass(topStatus));
         var banner = document.createElement('div');
         banner.className = 'cal-status-banner';
         banner.textContent = statusLabel(topStatus);
@@ -1147,8 +1176,9 @@
         left.innerHTML = '<div class="session"><span class="session-badge">'+sessionLabel(b.session)+'</span>'+(b.city || '地區未提供')+'</div>'+nameHtml;
         var right = document.createElement('div');
         var pill = document.createElement('span');
-        pill.className = 'status-pill status-' + b.status;
-        pill.textContent = statusLabel(b.status);
+        var eStatus = effectiveStatus(b.status, dstr);
+        pill.className = 'status-pill status-' + eStatus;
+        pill.textContent = statusLabel(eStatus);
         right.appendChild(pill);
         row.appendChild(left);
         row.appendChild(right);
