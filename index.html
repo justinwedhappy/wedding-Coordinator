@@ -27,6 +27,7 @@
     --completed:#FBCFE8;
     --completed-text:#9D174D;
     --pink-accent:#F472B6;
+    --xi-red:#7B1E3A;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -272,7 +273,7 @@
   .cal-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.8rem; color:var(--charcoal-soft); align-items:center;}
   .legend-badge{
     display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px;
-    border-radius:50%; background:var(--wine); color:var(--white); font-family:'Noto Serif TC', serif;
+    border-radius:50%; background:var(--xi-red); color:var(--white); font-family:'Noto Serif TC', serif;
     font-size:.78rem; font-weight:700; border:1px solid var(--gold-soft); margin-right:2px;
   }
   .legend-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle;}
@@ -304,15 +305,16 @@
   .cal-cell.good-holiday::after{
     content:"囍"; position:absolute; top:3px; right:3px; width:22px; height:22px;
     line-height:20px; text-align:center; border-radius:50%;
-    background:var(--wine); color:var(--white); font-family:'Noto Serif TC', serif;
+    background:var(--xi-red); color:var(--white); font-family:'Noto Serif TC', serif;
     font-size:.75rem; font-weight:700; border:1.5px solid var(--gold-soft);
-    box-shadow:0 2px 4px rgba(64,63,114,.32);
+    box-shadow:0 2px 4px rgba(123,30,58,.4);
   }
   .cal-cell.good-weekday{
     background:#E6E2F2; border-color:#E6E2F2; opacity:.55;
   }
   .cal-cell.good-weekday:hover{opacity:.85; border-color:var(--gold);}
   .cal-cell.good-weekday .cal-date-num{color:#948FAE;}
+  .cal-blocked-label{font-size:.75rem; color:#948FAE; line-height:1.2; margin-top:2px;}
 
   .cal-cell.cell-confirmed, .cal-cell.cell-negotiating, .cal-cell.cell-completed{
     border-width:0; cursor:pointer; justify-content:flex-start; gap:3px;
@@ -559,6 +561,7 @@
 
     <div class="plan-footnote">
       <div>💠 <b>規模彈性調整：</b>若婚宴規模超過 25 桌，每多 10 桌將視現場流程需求增加一位同行助手，加碼價 NT$5,000。</div>
+      <div>💠 <b>額外儀式加碼：</b>若婚宴當天另外包含證婚、文定等額外儀式，加碼服務 NT$1,000。</div>
       <div>💠 <b>現金結算說明：</b>顧問不經手現金，服務結束時間至現場尾款結帳止（不包含事後匯款之尾款服務）。</div>
     </div>
   </section>
@@ -821,13 +824,17 @@
     {"date":"2026-12-05","session":"lunch","city":"新北市","name":"yu******","status":"negotiating"}
   ];
 
-  // 不開放預約期間（可依需求增減區間）
+  // 不開放預約期間（可依需求增減區間，label 為選填的小字說明）
   var BLOCKED_RANGES = [
-    {start:'2027-04-01', end:'2027-04-30'},
+    {start:'2027-04-01', end:'2027-04-30', label:'家族旅遊'},
     {start:'2027-02-04', end:'2027-02-10'} // 過年春節，共 7 天
   ];
   function isBlocked(dstr){
     return BLOCKED_RANGES.some(function(r){ return dstr >= r.start && dstr <= r.end; });
+  }
+  function blockedLabel(dstr){
+    var match = BLOCKED_RANGES.find(function(r){ return dstr >= r.start && dstr <= r.end; });
+    return match && match.label ? match.label : '';
   }
 
   // 2027 結婚好日子（依新人提供的圖片整理）：holiday＝黃色圈（假日）／weekday＝無標記（平日）
@@ -1171,6 +1178,13 @@
         cell.appendChild(tagWrap);
       }else if(blocked){
         cell.classList.add('good-weekday'); // 停止接單，反灰
+        var blockLbl = blockedLabel(dstr);
+        if(blockLbl){
+          var lblEl = document.createElement('span');
+          lblEl.className = 'cal-blocked-label';
+          lblEl.textContent = blockLbl;
+          cell.appendChild(lblEl);
+        }
       }else if(goodType === 'holiday'){
         cell.classList.add('good-holiday');
       }else if(isWeekdayDate){
@@ -1199,7 +1213,8 @@
     if(isBlocked(dstr) && entries.length === 0){
       var blockedTag = document.createElement('p');
       blockedTag.className = 'detail-empty';
-      blockedTag.innerHTML = '<b style="color:var(--wine-deep)">這段期間暫停接單，不開放預約</b>';
+      var reason = blockedLabel(dstr);
+      blockedTag.innerHTML = '<b style="color:var(--wine-deep)">這段期間暫停接單，不開放預約</b>' + (reason ? '<br><span style="color:var(--charcoal-soft); font-size:.85rem;">原因：'+reason+'</span>' : '');
       detailBody.appendChild(blockedTag);
     }else if(goodType === 'holiday'){
       var tag = document.createElement('p');
