@@ -59,10 +59,10 @@
   /* ---------- hero ---------- */
   .hero{padding:56px 0 40px; position:relative;}
   .hero-eyebrow{
-    display:inline-flex; align-items:center; gap:8px;
+    display:inline-flex; align-items:center; gap:10px;
     font-size:.8rem; color:var(--wine); letter-spacing:.08em; margin-bottom:22px;
   }
-  .hero-eyebrow::before{content:""; width:22px; height:1px; background:var(--gold);}
+  .hero-eyebrow svg{width:28px; height:17px; color:var(--gold); flex:none;}
   .hero h1{
     font-size:clamp(2.1rem, 5vw, 3.4rem);
     font-weight:600; line-height:1.4; max-width:11.5em;
@@ -116,8 +116,11 @@
 
   .section-head{max-width:36em; margin-bottom:40px;}
   .section-head .kicker{
-    font-size:.78rem; color:var(--wine); letter-spacing:.1em; margin-bottom:10px; display:block;
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:.86rem; color:var(--gold); letter-spacing:.04em; margin-bottom:12px;
+    font-family:'Noto Serif TC', serif;
   }
+  .section-head .kicker svg{width:17px; height:17px; flex:none; color:var(--gold);}
   .section-head h2{font-size:clamp(1.5rem,3vw,2rem); font-weight:600;}
   .section-head p{color:var(--charcoal-soft); margin-top:12px; font-size:.98rem;}
 
@@ -126,9 +129,14 @@
   @media (max-width:820px){ .plans{grid-template-columns:1fr;} }
   .plan{
     border:1px solid var(--line); background:var(--white); padding:34px 30px;
-    display:flex; flex-direction:column;
+    display:flex; flex-direction:column; position:relative;
   }
   .plan.featured{border-color:var(--wine);}
+  .plan.featured::before, .plan.featured::after{
+    content:""; position:absolute; width:20px; height:20px; border:1.5px solid var(--gold);
+  }
+  .plan.featured::before{top:-1px; left:-1px; border-right:none; border-bottom:none;}
+  .plan.featured::after{bottom:-1px; right:-1px; border-left:none; border-top:none;}
   .plan-tag{font-size:.72rem; letter-spacing:.1em; color:var(--gold); margin-bottom:10px;}
   .plan-name{font-size:1.4rem; font-weight:600;}
   .plan-desc{color:var(--charcoal-soft); font-size:.9rem; margin-top:8px;}
@@ -151,7 +159,7 @@
     border-top:1px solid var(--ivory-deep);
   }
   .plan li:first-child{border-top:none;}
-  .plan li::before{content:"·"; position:absolute; left:2px; color:var(--gold); font-size:1.2rem; line-height:1;}
+  .plan li::before{content:"♡"; position:absolute; left:0; color:var(--gold); font-size:.85rem; line-height:1.5;}
   .plan li b{font-weight:600;}
   .plan-cta{margin-top:auto; padding-top:26px;}
   .plan-footnote{
@@ -162,6 +170,7 @@
   /* ---------- timeline ---------- */
   .timeline-cols{display:grid; grid-template-columns:1fr 1fr; gap:44px;}
   @media (max-width:820px){ .timeline-cols{grid-template-columns:1fr;} }
+  .timeline-col{background:var(--white); border:1px solid var(--line); padding:30px 28px 8px;}
   .timeline-col h3{font-size:1.05rem; font-weight:600; color:var(--wine); margin-bottom:4px;}
   .timeline-col .tl-window{font-size:.8rem; color:var(--charcoal-soft); margin-bottom:26px;}
   .tl-item{position:relative; padding-left:30px; padding-bottom:30px; border-left:1px solid var(--line); margin-left:8px;}
@@ -170,7 +179,7 @@
     position:absolute; left:-6.5px; top:2px; width:12px; height:12px; border-radius:50%;
     background:var(--ivory); border:2px solid var(--wine);
   }
-  .tl-item.final .tl-dot{background:var(--wine);}
+  .tl-item.final .tl-dot{background:var(--wine); box-shadow:0 0 0 4px var(--blush);}
   .tl-title{font-weight:600; font-size:.96rem; margin-bottom:5px;}
   .tl-desc{font-size:.87rem; color:var(--charcoal-soft);}
 
@@ -189,7 +198,12 @@
   .cal-nav-btn:hover{background:var(--blush);}
   .cal-nav-btn:disabled{cursor:not-allowed;}
   .cal-nav-btn:disabled:hover{background:none;}
-  .cal-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.78rem; color:var(--charcoal-soft);}
+  .cal-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.78rem; color:var(--charcoal-soft); align-items:center;}
+  .legend-badge{
+    display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px;
+    border-radius:50%; background:var(--wine); color:var(--white); font-family:'Noto Serif TC', serif;
+    font-size:.58rem; font-weight:700; border:1px solid var(--gold-soft); margin-right:2px;
+  }
   .legend-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle;}
   .admin-toggle{
     font-size:.76rem; color:var(--charcoal-soft); background:none; border:1px solid var(--line);
@@ -207,11 +221,27 @@
   .cal-cell{
     aspect-ratio:1/0.92; border:1px solid var(--ivory-deep); border-radius:3px; padding:8px 8px 6px;
     display:flex; flex-direction:column; justify-content:space-between; background:var(--ivory);
-    cursor:pointer; transition:border-color .15s, background .15s;
+    cursor:pointer; transition:border-color .15s, background .15s; position:relative;
   }
   .cal-cell:hover{border-color:var(--gold); background:var(--white);}
   .cal-cell.empty{visibility:hidden; cursor:default;}
   .cal-cell.today{border-color:var(--wine);}
+  .cal-cell.good-holiday{
+    border:1.5px solid var(--gold); background:linear-gradient(160deg,#FBF0DA,var(--ivory) 65%);
+  }
+  .cal-cell.good-holiday .cal-date-num{color:var(--wine-deep); font-weight:700;}
+  .cal-cell.good-holiday::after{
+    content:"囍"; position:absolute; top:5px; right:5px; width:18px; height:18px;
+    line-height:16px; text-align:center; border-radius:50%;
+    background:var(--wine); color:var(--white); font-family:'Noto Serif TC', serif;
+    font-size:.62rem; font-weight:700; border:1.5px solid var(--gold-soft);
+    box-shadow:0 2px 4px rgba(63,18,32,.3);
+  }
+  .cal-cell.good-weekday{
+    background:#E9E3D9; border-color:#E9E3D9; opacity:.55;
+  }
+  .cal-cell.good-weekday:hover{opacity:.85; border-color:var(--gold);}
+  .cal-cell.good-weekday .cal-date-num{color:#8F8579;}
   .cal-date-num{font-family:'Cormorant Garamond', serif; font-size:1.15rem; font-weight:600;}
   .cal-dots{display:flex; gap:4px;}
   .cal-dots span{width:7px; height:7px; border-radius:50%;}
@@ -299,7 +329,7 @@
 </div>
 
 <section class="hero wrap">
-  <span class="hero-eyebrow">PROFESSIONAL WEDDING COORDINATOR</span>
+  <span class="hero-eyebrow"><svg viewBox="0 0 32 20" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="11" cy="10" r="7"/><circle cx="21" cy="10" r="7"/></svg>PROFESSIONAL WEDDING COORDINATOR</span>
   <h1>婚禮當天，交給熟悉每個細節的人</h1>
   <p class="lead">從流程確認到現場應變，我是新人與所有廠商、場地之間唯一需要記住的窗口。您只需要專心享受屬於自己的婚宴。</p>
   <div class="hero-cta">
@@ -327,9 +357,9 @@
   <!-- ================= 服務內容 ================= -->
   <section class="panel active" id="panel-services">
     <div class="section-head">
-      <span class="kicker">SERVICES</span>
+      <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21V4M12 10C9 9 7 6 7 6s1 4 5 5M12 14c3-1 5-4 5-4s-1 4-5 5"/></svg>服務方案</span>
       <h2>兩種服務方案，依籌備需求選擇</h2>
-      <p>兩案皆可服務雙北、桃園、新竹地區，免收車馬費；若婚宴規模超過 25 桌，將視現場流程需求安排同行助手（每位增加 NT$2,000）。</p>
+      <p>兩案皆可服務雙北、桃園、新竹地區，免收車馬費；若婚宴規模超過 25 桌，每多 10 桌將視現場流程需求增加一位同行助手，加碼價 NT$5,000。</p>
     </div>
 
     <div class="plans">
@@ -339,7 +369,7 @@
         <div class="plan-name">一日神隊友總召</div>
         <div class="plan-desc">適合已大致確認流程、希望婚禮當天有專人執行與應變的新人。</div>
         <div class="plan-price-row">
-          <span class="plan-price numeral">NT$ 10,000</span>
+          <span class="plan-price numeral">NT$ 12,000</span>
           <span class="plan-price-note">單日專案優惠價</span>
         </div>
         <div class="plan-area">服務範圍：雙北／桃園／新竹，免車馬費</div>
@@ -374,7 +404,7 @@
         <div class="plan-name">神隊友顧問總召</div>
         <div class="plan-desc">適合希望提早一個月就有顧問協助審視流程、對接廠商的新人。</div>
         <div class="plan-price-row">
-          <span class="plan-price numeral">NT$ 13,000</span>
+          <span class="plan-price numeral">NT$ 15,000</span>
           <span class="plan-price-note">專案服務優惠價</span>
         </div>
         <div class="plan-area">服務範圍：雙北／桃園／新竹，免車馬費</div>
@@ -406,7 +436,7 @@
     </div>
 
     <div class="plan-footnote">
-      <div>💠 <b>規模彈性調整：</b>若婚宴規模超過 25 桌，將視現場流程需求安排同行助手（每位增加 NT$2,000）。</div>
+      <div>💠 <b>規模彈性調整：</b>若婚宴規模超過 25 桌，每多 10 桌將視現場流程需求增加一位同行助手，加碼價 NT$5,000。</div>
       <div>💠 <b>現金結算說明：</b>顧問不經手現金，服務結束時間至現場尾款結帳止（不包含事後匯款之尾款服務）。</div>
     </div>
   </section>
@@ -414,7 +444,7 @@
   <!-- ================= 討論時程 ================= -->
   <section class="panel" id="panel-timeline">
     <div class="section-head">
-      <span class="kicker">TIMELINE</span>
+      <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21V4M12 10C9 9 7 6 7 6s1 4 5 5M12 14c3-1 5-4 5-4s-1 4-5 5"/></svg>籌備時程</span>
       <h2>從第一次對接到婚禮當天</h2>
       <p>兩種方案的前期對接時間不同，可依籌備進度選擇最合適的服務起點。</p>
     </div>
@@ -470,7 +500,7 @@
   <!-- ================= 可預約檔期 ================= -->
   <section class="panel" id="panel-calendar">
     <div class="section-head">
-      <span class="kicker">AVAILABILITY</span>
+      <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="9" cy="12" r="6"/><circle cx="16" cy="12" r="6"/></svg>檔期月曆</span>
       <h2>可預約檔期月曆</h2>
       <p>點選日期可查看午／晚宴目前狀態；沒有標示的日期代表尚未有排定紀錄，歡迎直接洽詢。目前開放查詢至 2027 年 12 月 31 日。</p>
     </div>
@@ -485,7 +515,9 @@
         <div class="cal-legend">
           <span><span class="legend-dot" style="background:var(--amber)"></span>洽談中</span>
           <span><span class="legend-dot" style="background:var(--confirmed)"></span>已確定</span>
-          <span>無標示＝目前開放</span>
+          <span><span class="legend-badge">囍</span> 2027 吉日（假日）</span>
+          <span>灰底＝2027 吉日（平日）</span>
+          <span>其餘無標示＝目前開放</span>
         </div>
         <button class="admin-toggle" id="adminToggle">顧問管理模式</button>
       </div>
@@ -512,6 +544,7 @@
               <select id="fSession">
                 <option value="lunch">午宴</option>
                 <option value="dinner">晚宴</option>
+                <option value="unspecified">場次未定</option>
               </select>
             </div>
           </div>
@@ -540,6 +573,7 @@
 <footer>
   <div class="wrap">
     <div>
+      <svg viewBox="0 0 32 20" fill="none" stroke="var(--gold-soft)" stroke-width="1.3" style="width:30px;height:18px;margin-bottom:14px;"><circle cx="11" cy="10" r="7"/><circle cx="21" cy="10" r="7"/></svg>
       <h3>想確認您的婚禮日期是否還有空檔？</h3>
       <p>留下您預計的婚宴日期與地區，我會在 24 小時內回覆檔期狀況。</p>
     </div>
@@ -610,6 +644,23 @@
   var bookings = []; // {id, date:'YYYY-MM-DD', session:'lunch'|'dinner', location, status}
 
   var STORAGE_KEY = 'wedding-bookings';
+  var SEEDED_FLAG_KEY = 'wedding-bookings-seeded';
+
+  // 由新人提供的 Notion 詢問清單匯入（已排除「已拒絕」的詢問，該日期維持開放；不儲存新人姓名/帳號等個資）
+  var SEED_BOOKINGS = [
+    {"id":"seed-1","date":"2027-01-17","session":"dinner","location":"台北漢來大飯店（臺北市南港區經貿一路168號）","status":"confirmed"},
+    {"id":"seed-2","date":"2026-09-05","session":"lunch","location":"台北漢來大飯店（臺北市南港區經貿一路168號）","status":"confirmed"},
+    {"id":"seed-3","date":"2026-07-04","session":"lunch","location":"典華雅聚新莊店（新北市新莊區中央路469號2樓）","status":"confirmed"},
+    {"id":"seed-4","date":"2027-03-06","session":"lunch","location":"臺中市役所（臺中市西區利民里民權路97號）","status":"confirmed"},
+    {"id":"seed-5","date":"2027-03-20","session":"lunch","location":"臺中市役所（臺中市西區利民里民權路97號）","status":"confirmed"},
+    {"id":"seed-6","date":"2026-12-26","session":"lunch","location":"台北漢來大飯店（臺北市南港區經貿一路168號）","status":"negotiating"},
+    {"id":"seed-7","date":"2027-06-26","session":"unspecified","location":"基隆彭園（基隆市中正區港通里中正路62之1號5樓）","status":"negotiating"},
+    {"id":"seed-8","date":"2027-07-24","session":"dinner","location":"高雄萊特","status":"negotiating"},
+    {"id":"seed-9","date":"2026-12-05","session":"lunch","location":"板橋希爾頓","status":"negotiating"}
+  ];
+
+  // 2027 結婚好日子（依新人提供的圖片整理）：holiday＝黃色圈（假日）／weekday＝無標記（平日）
+  var GOOD_DATES = {'2027-01-17':'holiday','2027-01-23':'holiday','2027-01-24':'holiday','2027-01-31':'holiday','2027-01-05':'weekday','2027-01-12':'weekday','2027-01-14':'weekday','2027-01-15':'weekday','2027-01-26':'weekday','2027-02-14':'holiday','2027-02-20':'holiday','2027-02-21':'holiday','2027-02-17':'weekday','2027-02-26':'weekday','2027-03-06':'holiday','2027-03-13':'holiday','2027-03-28':'holiday','2027-03-04':'weekday','2027-03-05':'weekday','2027-03-08':'weekday','2027-03-10':'weekday','2027-03-11':'weekday','2027-03-16':'weekday','2027-03-17':'weekday','2027-03-18':'weekday','2027-03-23':'weekday','2027-03-29':'weekday','2027-04-17':'holiday','2027-04-01':'weekday','2027-04-09':'weekday','2027-04-20':'weekday','2027-04-21':'weekday','2027-04-29':'weekday','2027-05-09':'holiday','2027-05-15':'holiday','2027-05-03':'weekday','2027-05-06':'weekday','2027-05-07':'weekday','2027-05-13':'weekday','2027-05-17':'weekday','2027-05-19':'weekday','2027-05-21':'weekday','2027-05-24':'weekday','2027-05-25':'weekday','2027-05-27':'weekday','2027-05-28':'weekday','2027-05-31':'weekday','2027-06-05':'holiday','2027-06-12':'holiday','2027-06-19':'holiday','2027-06-27':'holiday','2027-06-09':'weekday','2027-06-10':'weekday','2027-06-11':'weekday','2027-06-18':'weekday','2027-06-21':'weekday','2027-06-24':'weekday','2027-07-03':'holiday','2027-07-04':'holiday','2027-07-10':'holiday','2027-07-11':'holiday','2027-07-17':'holiday','2027-07-18':'holiday','2027-07-24':'holiday','2027-07-25':'holiday','2027-07-01':'weekday','2027-07-05':'weekday','2027-07-13':'weekday','2027-07-15':'weekday','2027-07-22':'weekday','2027-07-23':'weekday','2027-08-21':'holiday','2027-08-29':'holiday','2027-08-03':'weekday','2027-08-06':'weekday','2027-08-13':'weekday','2027-08-16':'weekday','2027-08-18':'weekday','2027-08-19':'weekday','2027-08-23':'weekday','2027-08-25':'weekday','2027-08-30':'weekday','2027-08-31':'weekday','2027-09-04':'holiday','2027-09-12':'holiday','2027-09-01':'weekday','2027-09-02':'weekday','2027-09-06':'weekday','2027-09-10':'weekday','2027-09-14':'weekday','2027-09-16':'weekday','2027-09-22':'weekday','2027-09-23':'weekday','2027-09-28':'weekday','2027-10-03':'holiday','2027-10-30':'holiday','2027-10-01':'weekday','2027-10-05':'weekday','2027-10-06':'weekday','2027-10-08':'weekday','2027-10-15':'weekday','2027-10-18':'weekday','2027-10-20':'weekday','2027-10-21':'weekday','2027-10-27':'weekday','2027-11-14':'holiday','2027-11-20':'holiday','2027-11-21':'holiday','2027-11-01':'weekday','2027-11-03':'weekday','2027-11-08':'weekday','2027-11-11':'weekday','2027-11-15':'weekday','2027-11-17':'weekday','2027-11-29':'weekday','2027-12-05':'holiday','2027-12-12':'holiday','2027-12-19':'holiday','2027-12-03':'weekday','2027-12-16':'weekday','2027-12-27':'weekday','2027-12-28':'weekday'};
 
   async function loadBookings(){
     try{
@@ -617,6 +668,18 @@
       bookings = res && res.value ? JSON.parse(res.value) : [];
     }catch(e){
       bookings = [];
+    }
+    if(bookings.length === 0){
+      var seeded = false;
+      try{
+        var flag = await window.storage.get(SEEDED_FLAG_KEY, true);
+        seeded = !!(flag && flag.value === 'true');
+      }catch(e){ seeded = false; }
+      if(!seeded){
+        bookings = SEED_BOOKINGS.slice();
+        await saveBookings();
+        try{ await window.storage.set(SEEDED_FLAG_KEY, 'true', true); }catch(e){}
+      }
     }
     renderCalendar();
   }
@@ -644,7 +707,9 @@
     return status === 'confirmed' ? '已確定' : '洽談中';
   }
   function sessionLabel(s){
-    return s === 'lunch' ? '午宴' : '晚宴';
+    if(s === 'lunch') return '午宴';
+    if(s === 'dinner') return '晚宴';
+    return '場次未定';
   }
 
   var monthLabel = document.getElementById('monthLabel');
@@ -673,6 +738,10 @@
       var isToday = (viewYear===today.getFullYear() && viewMonth===today.getMonth() && d===today.getDate());
       if(isToday) cell.classList.add('today');
       if(dstr === selectedDateStr) cell.style.borderColor = 'var(--wine)';
+
+      var goodType = GOOD_DATES[dstr];
+      if(goodType === 'holiday'){ cell.classList.add('good-holiday'); }
+      if(goodType === 'weekday'){ cell.classList.add('good-weekday'); }
 
       var num = document.createElement('span');
       num.className = 'cal-date-num';
@@ -706,10 +775,25 @@
     var parts = dstr.split('-');
     detailTitle.textContent = parts[0] + ' 年 ' + parseInt(parts[1]) + ' 月 ' + parseInt(parts[2]) + ' 日';
     var entries = bookingsFor(dstr);
+    detailBody.innerHTML = '';
+    var goodType = GOOD_DATES[dstr];
+    if(goodType === 'holiday'){
+      var tag = document.createElement('p');
+      tag.className = 'detail-empty';
+      tag.innerHTML = '<span class="legend-badge" style="margin-right:6px;">囍</span><b style="color:var(--wine-deep)">2027 結婚好日子（假日）</b>';
+      detailBody.appendChild(tag);
+    }else if(goodType === 'weekday'){
+      var tag2 = document.createElement('p');
+      tag2.className = 'detail-empty';
+      tag2.innerHTML = '2027 結婚好日子（平日，賓客出席需請假，建議先與新人確認意願）';
+      detailBody.appendChild(tag2);
+    }
     if(entries.length === 0){
-      detailBody.innerHTML = '<p class="detail-empty">目前尚無排定紀錄，歡迎直接洽詢這個日期。</p>';
+      var emptyMsg = document.createElement('p');
+      emptyMsg.className = 'detail-empty';
+      emptyMsg.textContent = '目前尚無排定紀錄，歡迎直接洽詢這個日期。';
+      detailBody.appendChild(emptyMsg);
     }else{
-      detailBody.innerHTML = '';
       entries.forEach(function(b){
         var row = document.createElement('div');
         row.className = 'detail-entry';
