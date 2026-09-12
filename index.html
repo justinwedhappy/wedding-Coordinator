@@ -10,19 +10,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ivory:#F8F4EC;
-    --ivory-deep:#F1E7DA;
-    --wine:#6E1E32;
-    --wine-deep:#3F1220;
-    --charcoal:#2B221D;
-    --charcoal-soft:#6B5F56;
-    --gold:#A9825A;
-    --gold-soft:#D9C6A6;
-    --blush:#EEDFD8;
-    --line:#DDCEB9;
-    --white:#FFFDF8;
-    --amber:#B98A3E;
-    --confirmed:#6E1E32;
+    --ivory:#F6F4FB;
+    --ivory-deep:#ECE6F8;
+    --wine:#5B5A96;
+    --wine-deep:#403F72;
+    --charcoal:#2E2B3D;
+    --charcoal-soft:#6B6580;
+    --gold:#8EA0D9;
+    --gold-soft:#C7D2EF;
+    --blush:#EDE7F9;
+    --line:#DCD4EE;
+    --white:#FFFFFF;
+    --amber:#9B7FD4;
+    --confirmed:#5B5A96;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -54,7 +54,7 @@
   .brand{display:flex; align-items:center; gap:10px;}
   .brand-mark{width:34px; height:34px; flex:none;}
   .brand-name{font-family:'Noto Serif TC', serif; font-size:1.05rem; font-weight:600; letter-spacing:.04em;}
-  .brand-sub{font-size:.68rem; color:var(--charcoal-soft); letter-spacing:.12em;}
+  .brand-sub{font-size:.75rem; color:var(--charcoal-soft); letter-spacing:.12em;}
 
   /* ---------- hero ---------- */
   .hero{padding:56px 0 40px; position:relative;}
@@ -95,7 +95,7 @@
 
   /* ---------- tab nav ---------- */
   .tabnav-shell{
-    position:sticky; top:0; z-index:40; background:rgba(248,244,236,.92);
+    position:sticky; top:0; z-index:40; background:rgba(246,244,251,.92);
     backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
   }
   .tabnav{display:flex; gap:4px; max-width:1080px; margin:0 auto; padding:0 28px; overflow-x:auto;}
@@ -125,8 +125,17 @@
   .section-head p{color:var(--charcoal-soft); margin-top:12px; font-size:.98rem;}
 
   /* ---------- services ---------- */
-  .plans{display:grid; grid-template-columns:1fr 1fr; gap:28px;}
-  @media (max-width:820px){ .plans{grid-template-columns:1fr;} }
+  .plans{display:block;}
+  .plan-tabs{
+    display:inline-flex; border:1px solid var(--line); border-radius:30px; padding:4px;
+    margin-bottom:32px; background:var(--white); gap:2px;
+  }
+  .plan-tab-btn{
+    border:none; background:none; padding:11px 24px; border-radius:24px; font-size:.92rem;
+    color:var(--charcoal-soft); letter-spacing:.02em; font-family:'Noto Sans TC', sans-serif;
+  }
+  .plan-tab-btn.active{background:var(--wine); color:var(--white);}
+  .plan{max-width:680px; margin:0 auto;}
   .plan{
     border:1px solid var(--line); background:var(--white); padding:34px 30px;
     display:flex; flex-direction:column; position:relative;
@@ -137,7 +146,7 @@
   }
   .plan.featured::before{top:-1px; left:-1px; border-right:none; border-bottom:none;}
   .plan.featured::after{bottom:-1px; right:-1px; border-left:none; border-top:none;}
-  .plan-tag{font-size:.72rem; letter-spacing:.1em; color:var(--gold); margin-bottom:10px;}
+  .plan-tag{font-size:.75rem; letter-spacing:.1em; color:var(--gold); margin-bottom:10px;}
   .plan-name{font-size:1.4rem; font-weight:600;}
   .plan-desc{color:var(--charcoal-soft); font-size:.9rem; margin-top:8px;}
   .plan-price-row{
@@ -152,7 +161,7 @@
     display:flex; align-items:center; justify-content:space-between;
     font-size:.88rem; font-weight:600; color:var(--wine-deep); margin-bottom:12px;
   }
-  .plan-group-time{font-size:.72rem; color:var(--charcoal-soft); font-weight:400; background:var(--blush); padding:3px 9px; border-radius:20px;}
+  .plan-group-time{font-size:.75rem; color:var(--charcoal-soft); font-weight:400; background:var(--blush); padding:3px 9px; border-radius:20px;}
   .plan ul{margin:0; padding:0; list-style:none;}
   .plan li{
     padding:10px 0 10px 20px; position:relative; font-size:.89rem; color:var(--charcoal);
@@ -198,11 +207,11 @@
   .cal-nav-btn:hover{background:var(--blush);}
   .cal-nav-btn:disabled{cursor:not-allowed;}
   .cal-nav-btn:disabled:hover{background:none;}
-  .cal-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.78rem; color:var(--charcoal-soft); align-items:center;}
+  .cal-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:.8rem; color:var(--charcoal-soft); align-items:center;}
   .legend-badge{
-    display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px;
+    display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px;
     border-radius:50%; background:var(--wine); color:var(--white); font-family:'Noto Serif TC', serif;
-    font-size:.58rem; font-weight:700; border:1px solid var(--gold-soft); margin-right:2px;
+    font-size:.78rem; font-weight:700; border:1px solid var(--gold-soft); margin-right:2px;
   }
   .legend-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle;}
   .admin-toggle{
@@ -215,7 +224,7 @@
   .cal-grid{padding:22px 26px 28px;}
   .cal-weekdays{display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:8px;}
   .cal-weekdays span{
-    text-align:center; font-size:.74rem; color:var(--charcoal-soft); letter-spacing:.06em; padding-bottom:6px;
+    text-align:center; font-size:.78rem; color:var(--charcoal-soft); letter-spacing:.06em; padding-bottom:6px;
   }
   .cal-days{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
   .cal-cell{
@@ -227,21 +236,21 @@
   .cal-cell.empty{visibility:hidden; cursor:default;}
   .cal-cell.today{border-color:var(--wine);}
   .cal-cell.good-holiday{
-    border:1.5px solid var(--gold); background:linear-gradient(160deg,#FBF0DA,var(--ivory) 65%);
+    border:1.5px solid var(--gold); background:linear-gradient(160deg,#E4E9FA,var(--ivory) 65%);
   }
   .cal-cell.good-holiday .cal-date-num{color:var(--wine-deep); font-weight:700;}
   .cal-cell.good-holiday::after{
-    content:"囍"; position:absolute; top:5px; right:5px; width:18px; height:18px;
-    line-height:16px; text-align:center; border-radius:50%;
+    content:"囍"; position:absolute; top:3px; right:3px; width:22px; height:22px;
+    line-height:20px; text-align:center; border-radius:50%;
     background:var(--wine); color:var(--white); font-family:'Noto Serif TC', serif;
-    font-size:.62rem; font-weight:700; border:1.5px solid var(--gold-soft);
-    box-shadow:0 2px 4px rgba(63,18,32,.3);
+    font-size:.75rem; font-weight:700; border:1.5px solid var(--gold-soft);
+    box-shadow:0 2px 4px rgba(64,63,114,.32);
   }
   .cal-cell.good-weekday{
-    background:#E9E3D9; border-color:#E9E3D9; opacity:.55;
+    background:#E6E2F2; border-color:#E6E2F2; opacity:.55;
   }
   .cal-cell.good-weekday:hover{opacity:.85; border-color:var(--gold);}
-  .cal-cell.good-weekday .cal-date-num{color:#8F8579;}
+  .cal-cell.good-weekday .cal-date-num{color:#948FAE;}
   .cal-date-num{font-family:'Cormorant Garamond', serif; font-size:1.15rem; font-weight:600;}
   .cal-dots{display:flex; gap:4px;}
   .cal-dots span{width:7px; height:7px; border-radius:50%;}
@@ -262,7 +271,7 @@
   .detail-entry:first-child{border-top:none;}
   .detail-entry .session{font-weight:600; font-size:.88rem;}
   .detail-entry .loc{font-size:.84rem; color:var(--charcoal-soft); margin-top:2px;}
-  .status-pill{font-size:.72rem; padding:3px 10px; border-radius:20px; white-space:nowrap; color:var(--white);}
+  .status-pill{font-size:.75rem; padding:3px 10px; border-radius:20px; white-space:nowrap; color:var(--white);}
   .status-negotiating{background:var(--amber);}
   .status-confirmed{background:var(--confirmed);}
   .del-btn{
@@ -286,7 +295,7 @@
   .admin-save:hover{background:var(--wine-deep);}
   .admin-note{font-size:.76rem; color:var(--charcoal-soft); margin-top:14px; line-height:1.7;}
   .passcode-box{
-    position:fixed; inset:0; background:rgba(43,34,29,.55); display:none;
+    position:fixed; inset:0; background:rgba(46,43,61,.55); display:none;
     align-items:center; justify-content:center; z-index:80; padding:20px;
   }
   .passcode-box.open{display:flex;}
@@ -317,9 +326,9 @@
 <div class="topbar">
   <div class="brand">
     <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
-      <circle cx="20" cy="20" r="19" stroke="#A9825A" stroke-width="1"/>
-      <path d="M12 22c2-6 6-9 8-9s6 3 8 9" stroke="#6E1E32" stroke-width="1.2" fill="none"/>
-      <circle cx="20" cy="14" r="2" fill="#6E1E32"/>
+      <circle cx="20" cy="20" r="19" stroke="#8EA0D9" stroke-width="1"/>
+      <path d="M12 22c2-6 6-9 8-9s6 3 8 9" stroke="#5B5A96" stroke-width="1.2" fill="none"/>
+      <circle cx="20" cy="14" r="2" fill="#5B5A96"/>
     </svg>
     <div>
       <div class="brand-name">神隊友總召</div>
@@ -362,9 +371,14 @@
       <p>兩案皆可服務雙北、桃園、新竹地區，免收車馬費；若婚宴規模超過 25 桌，每多 10 桌將視現場流程需求增加一位同行助手，加碼價 NT$5,000。</p>
     </div>
 
+    <div class="plan-tabs" id="planTabs">
+      <button class="plan-tab-btn active" data-plan="consultant">神隊友顧問總召</button>
+      <button class="plan-tab-btn" data-plan="oneday">一日神隊友總召</button>
+    </div>
+
     <div class="plans">
       <!-- Plan 1 -->
-      <div class="plan">
+      <div class="plan" id="plan-oneday">
         <div class="plan-tag">ONE-DAY COORDINATOR</div>
         <div class="plan-name">一日神隊友總召</div>
         <div class="plan-desc">適合已大致確認流程、希望婚禮當天有專人執行與應變的新人。</div>
@@ -399,7 +413,7 @@
       </div>
 
       <!-- Plan 2 -->
-      <div class="plan featured">
+      <div class="plan featured" id="plan-consultant">
         <div class="plan-tag">FULL WEDDING CONSULTANT</div>
         <div class="plan-name">神隊友顧問總召</div>
         <div class="plan-desc">適合希望提早一個月就有顧問協助審視流程、對接廠商的新人。</div>
@@ -629,6 +643,23 @@
     var current = document.querySelector('.tab-btn.active').dataset.tab;
     activateTab(current, false);
   });
+
+  // ---------- service plan tabs ----------
+  var planTabBtns = document.querySelectorAll('.plan-tab-btn');
+  var planPanels = {
+    consultant: document.getElementById('plan-consultant'),
+    oneday: document.getElementById('plan-oneday')
+  };
+  function showPlan(key){
+    planTabBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.plan === key); });
+    Object.keys(planPanels).forEach(function(k){
+      planPanels[k].style.display = (k === key) ? 'flex' : 'none';
+    });
+  }
+  planTabBtns.forEach(function(b){
+    b.addEventListener('click', function(){ showPlan(b.dataset.plan); });
+  });
+  showPlan('consultant');
 
   // ---------- calendar state ----------
   var today = new Date();
