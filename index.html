@@ -23,7 +23,7 @@
     --line:#DDD3C2;
     --white:#FFFFFF;
     --amber:#7A4E9E;
-    --confirmed:#2E2049;
+    --confirmed:#8E2439;
     --completed:#EBD7CC;
     --completed-text:#7A3B45;
     --pink-accent:#B98A93;
@@ -218,6 +218,32 @@
   }
   .perk-note{font-size:.82rem; color:var(--charcoal-soft); margin-top:28px; line-height:1.8;}
 
+  .vendor-section{margin-top:44px; padding-top:36px; border-top:1.5px dashed var(--line);}
+  .vendor-section-title{font-family:'Noto Serif TC', serif; font-size:1.25rem; font-weight:700; margin-bottom:6px;}
+  .vendor-section-sub{font-size:.85rem; color:var(--charcoal-soft); margin-bottom:24px;}
+  .vendor-category{margin-bottom:28px;}
+  .vendor-category-title{
+    display:inline-block; font-size:.8rem; font-weight:700; color:var(--white); background:var(--wine);
+    padding:4px 14px; border-radius:20px; margin-bottom:14px; letter-spacing:.03em;
+  }
+  .vendor-list{border:1.5px solid var(--line); background:var(--white);}
+  .vendor-item{
+    display:grid; grid-template-columns:1fr 1.6fr auto; gap:16px; align-items:start;
+    padding:14px 18px; border-top:1px solid var(--ivory-deep);
+  }
+  .vendor-item:first-child{border-top:none;}
+  .vendor-name{font-weight:600; font-size:.9rem;}
+  .vendor-service{font-size:.78rem; color:var(--gold); display:block; margin-top:2px;}
+  .vendor-feature{font-size:.84rem; color:var(--charcoal-soft); line-height:1.7;}
+  .vendor-note{font-size:.78rem; color:var(--xi-red); margin-top:4px;}
+  .vendor-links{font-size:.82rem; text-align:right; white-space:nowrap;}
+  .vendor-links a{color:var(--wine); border-bottom:1px solid var(--gold-soft);}
+  .vendor-links span{display:block; color:var(--charcoal-soft); margin-top:3px;}
+  @media (max-width:640px){
+    .vendor-item{grid-template-columns:1fr; gap:6px;}
+    .vendor-links{text-align:left;}
+  }
+
   .quote-calc{display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start;}
   @media (max-width:820px){ .quote-calc{grid-template-columns:1fr;} }
   .quote-form{border:1.5px solid var(--line); background:var(--white); padding:30px; position:relative; transition:box-shadow .25s ease;}
@@ -373,12 +399,13 @@
   .cal-weekdays span{
     text-align:center; font-size:.78rem; color:var(--charcoal-soft); letter-spacing:.06em; padding-bottom:6px;
   }
-  .cal-days{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
+  .cal-days{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; align-items:stretch;}
   .cal-cell{
-    aspect-ratio:1/0.92; border:1px solid var(--ivory-deep); border-radius:3px; padding:8px 8px 6px;
+    min-height:96px; border:1px solid var(--ivory-deep); border-radius:3px; padding:8px 8px 6px;
     display:flex; flex-direction:column; justify-content:space-between; background:var(--ivory);
     cursor:pointer; transition:border-color .15s, background .15s; position:relative;
   }
+  .cal-cell.empty{min-height:0;}
   .cal-cell:hover{border-color:var(--gold); background:var(--white);}
   .cal-cell.empty{visibility:hidden; cursor:default;}
   .cal-cell.today{border-color:var(--wine);}
@@ -432,7 +459,7 @@
     .cal-grid{padding:14px 6px 18px;}
     .cal-weekdays span{font-size:.75rem;}
     .cal-days{gap:4px;}
-    .cal-cell{aspect-ratio:1/1.15; padding:4px 3px 3px; border-radius:2px;}
+    .cal-cell{min-height:56px; padding:4px 3px 3px; border-radius:2px;}
     .cal-date-num{font-size:.85rem;}
     .cal-status-banner{font-size:.75rem; line-height:1.15; word-break:break-word;}
     /* 手機版格子太小，隱藏場次/地點/代稱細節，改靠點擊查看詳情 */
@@ -834,8 +861,8 @@
   <section class="panel" id="panel-perks">
     <div class="section-head">
       <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>新人福利</span>
-      <h2>結婚喜慶免費賀電／賀卡／中堂申請懶人包</h2>
-      <p>這份資料僅提供給已預約的新人。請向顧問索取通關密碼查看完整內容。</p>
+      <h2>免費申請懶人包＋推薦廠商名單</h2>
+      <p>這份資料僅提供給已預約的新人，包含結婚喜慶免費賀電／賀卡／中堂申請方式，以及婚禮相關推薦廠商名單。請向顧問索取通關密碼查看完整內容。</p>
     </div>
 
     <div class="perk-gate" id="perkGate">
@@ -851,7 +878,16 @@
       <p class="perk-gate-err" id="perkErr">密碼不正確，請再試一次，或向顧問確認密碼。</p>
     </div>
 
-    <div class="perk-content" id="perkContent"></div>
+    <div class="perk-content" id="perkContent">
+      <div class="plan-tabs-row" style="margin-bottom:28px;">
+        <div class="plan-tabs" id="perkTabs">
+          <button class="plan-tab-btn active" data-perk="vendor">推薦廠商名單</button>
+          <button class="plan-tab-btn" data-perk="gov">免費申請懶人包</button>
+        </div>
+      </div>
+      <div id="perkVendorPanel"></div>
+      <div id="perkGovPanel" style="display:none;"></div>
+    </div>
   </section>
 
 </main>
@@ -872,8 +908,8 @@
         <path d="M56 28 L54 38 M56 28 L58 38" stroke-width="1.8"/>
         <path d="M50 36c1.6-2 4.6-2 6 0c1.6-2 4.6-2 6 0" stroke-width="1.8"/>
       </svg>
-      <h3>想確認您的婚禮日期是否還有空檔？</h3>
-      <p>留下您預計的婚宴日期與地區，我會在 24 小時內回覆檔期狀況。</p>
+      <h3>把婚禮當天，交給值得託付的人</h3>
+      <p>誠摯的為你們一起共同量身打造的難忘美好回憶。</p>
     </div>
     <div>
       <a class="btn" href="https://www.instagram.com/just.in.wedding?stkn=MXRwMWsxbmpteXh6MA==" target="_blank" rel="noopener">IG 私訊洽詢</a>
@@ -1315,21 +1351,164 @@
     var note = document.createElement('p');
     note.className = 'perk-note';
     note.textContent = '以上申請管道與作業天數依各單位公告為準，實際受理與寄送時間可能隨婚宴旺季調整，建議提前 2-3 週申請以留出緩衝時間。';
-    var content = document.getElementById('perkContent');
+    var content = document.getElementById('perkGovPanel');
     content.innerHTML = '';
     content.appendChild(grid);
     content.appendChild(note);
     observeReveals(grid.querySelectorAll('.reveal-up'));
   }
 
+  // ===== 推薦廠商名單（Google 試算表）=====
+  // 發布方式同檔期試算表：檔案 → 共用 → 發布到網路 → 選對應工作表 → CSV → 發布，把連結貼到下面取代預留字串
+  var VENDOR_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTfUzRBI0jdhvPof6zCMLMy_bFdMEPFHc6JxpQebJeZNRj0PPcYHcI-5fad90AbiS2wNC1uoOMpzfSo/pub?gid=0&single=true&output=csv";
+
+  // 示範資料：僅在尚未設定試算表連結，或連線失敗時顯示
+  var DEMO_VENDORS = [
+    {category:'西服', service:'租/做西裝', name:'品位室', feature:'', link:'https://event.tastesuits.com/', contact:'', note:''},
+    {category:'西服', service:'皮鞋', name:'Vanger', feature:'', link:'https://shop.vanger.com.tw/', contact:'', note:''},
+    {category:'佈置', service:'舞台裝置', name:'威航企業社', feature:'', link:'', contact:'', note:''},
+    {category:'婚佈', service:'婚禮背板', name:'JC Wedding 潔希婚禮佈置', feature:'', link:'https://www.facebook.com/JCwedding2019', contact:'', note:''},
+    {category:'婚鞋', service:'婚鞋', name:'ReSarah', feature:'', link:'https://www.resarah.com/', contact:'', note:''},
+    {category:'婚禮小物', service:'日式米', name:'芳榮米廠小花磚', feature:'', link:'https://www.fangrong.tw/products/floral', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'Ariesy 愛瑞思帶領新娘秘書團隊', feature:'輕透妝感＋氣質編髮，風格可韓可甜', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'天使 AngelC Makeup Studio', feature:'強調透亮底妝與眼神韻味的雕琢，風格走優雅大氣且耐看的高級感。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'幸福派.派派 Makeup studio', feature:'擅長營造甜美活潑的氛圍，注重與新娘的互動，造型多見細緻的韓系點綴與靈動感。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'iLing 彩妝造型、新娘秘書', feature:'整體呈現清透光澤、乾淨精緻的韓劇感妝容，帶有自然但明顯升級的精緻度。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'HSU&SHE MAKEUP 雙人徐造型', feature:'強調「甜但不膩」、「有親和力」的氛圍。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'新娘秘書 JOANLIANG', feature:'以精湛的眼型調整與簡約時尚，能精準修飾五官並維持妝容乾淨度。', link:'', contact:'電話加好友 0934324743', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'Sunny-Yang', feature:'風格多變且具備高度親和力，擅長根據新娘特質打造自然、不厚重的清新自然妝感。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'新娘秘書 Amanda 個人彩粧', feature:'專注於展現新娘原生的美感，底妝輕薄如素顏，整體呈現溫柔優雅的氣質。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'新秘妏妏｜新娘造型｜台北新秘｜韓系新秘', feature:'經典的韓系千金風專家，擅長處理水光肌感與韓式低馬尾、大波浪等逆齡造型。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'韓系妝髮', name:'JAGEE｜搽脂 彩妝造型', feature:'風格獨特且具備藝術感，擅長俐落大膽的線條與復古時尚風，適合追求個人特色的新娘。', link:'', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'', name:'Eva Lai 團隊－Rebecca', feature:'', link:'https://www.instagram.com/evalaimakeupstudio/', contact:'', note:''},
+    {category:'新秘（韓系妝髮）', service:'', name:'Eva Lai 團隊－Niki', feature:'', link:'', contact:'', note:''},
+    {category:'道具', service:'彩帶', name:'森彩有限公司', feature:'', link:'https://www.sencai.com.tw/index.html', contact:'', note:''},
+    {category:'道具', service:'保麗龍', name:'利禾保力龍包裝材料有限公司', feature:'', link:'http://www.liha.com.tw/', contact:'', note:''},
+    {category:'道具', service:'假蛋糕', name:'偷嘴甜點手創室', feature:'', link:'https://touzueipastry.oddle.me/zh_TW', contact:'', note:''},
+    {category:'道具', service:'包材', name:'友成包裝事業有限公司', feature:'', link:'https://www.ycpc.com.tw/', contact:'', note:''},
+    {category:'道具', service:'包材', name:'中國洋森興業有限公司', feature:'', link:'', contact:'', note:''},
+    {category:'道具', service:'字卡', name:'風揚國際有限公司', feature:'', link:'', contact:'', note:''},
+    {category:'道具', service:'婚禮迎賓鏡', name:'映日常', feature:'', link:'', contact:'', note:''},
+    {category:'禮服秘書', service:'', name:'林莉－Penny', feature:'', link:'', contact:'', note:''},
+    {category:'禮服秘書', service:'', name:'蒂米琪－Emma', feature:'', link:'', contact:'', note:'但很常聽說他們最後精挑時會突然換人服務，這點要再三確認'},
+    {category:'禮服秘書', service:'', name:'Lace&Dolly Atelier－Sharon', feature:'', link:'', contact:'', note:'聽說現在熱門到很難約'},
+    {category:'禮服秘書', service:'', name:'Livia Bride－Una', feature:'', link:'', contact:'', note:''},
+    {category:'禮服秘書', service:'', name:'CH Wedding－Lanny', feature:'', link:'', contact:'', note:''}
+  ];
+
+  function rowsToVendors(rows){
+    var out = [];
+    rows.forEach(function(row){
+      var vals = Object.values(row);
+      var name = (vals[2] || '').trim();
+      if(!name) return;
+      var refRaw = (vals[4] || '').trim();
+      out.push({
+        category: (vals[0] || '其他').trim(),
+        service: (vals[1] || '').trim(),
+        name: name,
+        feature: (vals[3] || '').trim(),
+        link: /^https?:\/\//i.test(refRaw) ? refRaw : '',
+        contact: (vals[5] || '').trim(),
+        note: (vals[6] || '').trim()
+      });
+    });
+    return out;
+  }
+
+  function groupByCategory(list){
+    var groups = {}; var order = [];
+    list.forEach(function(v){
+      if(!groups[v.category]){ groups[v.category] = []; order.push(v.category); }
+      groups[v.category].push(v);
+    });
+    return order.map(function(cat){ return {category:cat, items:groups[cat]}; });
+  }
+
+  async function loadVendors(){
+    var notConfigured = !VENDOR_CSV_URL || VENDOR_CSV_URL.indexOf('PASTE_YOUR') === 0;
+    if(notConfigured) return DEMO_VENDORS;
+    try{
+      var res = await fetch(VENDOR_CSV_URL + (VENDOR_CSV_URL.indexOf('?')>-1?'&':'?') + '_=' + Date.now());
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      var text = await res.text();
+      var parsed = Papa.parse(text, {header:true, skipEmptyLines:true});
+      var vendors = rowsToVendors(parsed.data);
+      return vendors.length ? vendors : DEMO_VENDORS;
+    }catch(e){
+      console.error('Vendor sheet fetch error', e);
+      return DEMO_VENDORS;
+    }
+  }
+
+  async function renderVendorSection(){
+    var section = document.createElement('div');
+    var sub = document.createElement('div');
+    sub.className = 'vendor-section-sub';
+    sub.textContent = '整理自實際合作與新人回饋，僅供參考，實際配合仍建議自行溝通確認檔期與細節。';
+    section.appendChild(sub);
+
+    var vendors = await loadVendors();
+    var groups = groupByCategory(vendors);
+    groups.forEach(function(group){
+      var catBlock = document.createElement('div');
+      catBlock.className = 'vendor-category';
+      var catTitle = document.createElement('span');
+      catTitle.className = 'vendor-category-title';
+      catTitle.textContent = group.category;
+      catBlock.appendChild(catTitle);
+      var list = document.createElement('div');
+      list.className = 'vendor-list';
+      group.items.forEach(function(v){
+        var item = document.createElement('div');
+        item.className = 'vendor-item';
+        var left = document.createElement('div');
+        left.innerHTML = '<div class="vendor-name">'+v.name+'</div>' + (v.service ? '<span class="vendor-service">'+v.service+'</span>' : '');
+        var mid = document.createElement('div');
+        mid.innerHTML = (v.feature ? '<div class="vendor-feature">'+v.feature+'</div>' : '') + (v.note ? '<div class="vendor-note">＊'+v.note+'</div>' : '');
+        var right = document.createElement('div');
+        right.className = 'vendor-links';
+        var linkHtml = v.link ? '<a href="'+v.link+'" target="_blank" rel="noopener">參考連結 →</a>' : '';
+        var contactHtml = v.contact ? '<span>📞 '+v.contact+'</span>' : '';
+        right.innerHTML = linkHtml + contactHtml;
+        item.appendChild(left);
+        item.appendChild(mid);
+        item.appendChild(right);
+        list.appendChild(item);
+      });
+      catBlock.appendChild(list);
+      section.appendChild(catBlock);
+    });
+
+    var vendorPanel = document.getElementById('perkVendorPanel');
+    vendorPanel.innerHTML = '';
+    vendorPanel.appendChild(section);
+  }
+
   var perkGate = document.getElementById('perkGate');
   var perkContent = document.getElementById('perkContent');
   var perkPasscodeInput = document.getElementById('perkPasscode');
   var perkErr = document.getElementById('perkErr');
+  var perkTabBtns = document.querySelectorAll('#perkTabs .plan-tab-btn');
+  var perkPanels = {
+    vendor: document.getElementById('perkVendorPanel'),
+    gov: document.getElementById('perkGovPanel')
+  };
+  function showPerkTab(key){
+    perkTabBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.perk === key); });
+    Object.keys(perkPanels).forEach(function(k){
+      perkPanels[k].style.display = (k === key) ? 'block' : 'none';
+    });
+  }
+  perkTabBtns.forEach(function(b){
+    b.addEventListener('click', function(){ showPerkTab(b.dataset.perk); });
+  });
 
   function tryUnlockPerks(){
     if(perkPasscodeInput.value === PERK_PASSCODE){
       renderPerkContent();
+      renderVendorSection();
+      showPerkTab('vendor');
       perkGate.style.display = 'none';
       perkContent.classList.add('open');
       perkErr.style.display = 'none';
