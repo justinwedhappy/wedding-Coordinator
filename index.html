@@ -47,6 +47,7 @@
   .numeral{font-family:'Cormorant Garamond', serif;}
   a{color:inherit;}
   .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+  @media (max-width:480px){ .wrap{padding:0 16px;} }
   img,svg{display:block; max-width:100%;}
   button{font-family:inherit; cursor:pointer;}
   :focus-visible{outline:2px solid var(--wine); outline-offset:3px;}
@@ -120,12 +121,21 @@
     position:sticky; top:0; z-index:40; background:rgba(246,244,251,.92);
     backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
   }
-  .tabnav{display:flex; gap:4px; max-width:1080px; margin:0 auto; padding:0 28px; overflow-x:auto;}
+  .tabnav{
+    display:flex; gap:4px; max-width:1080px; margin:0 auto; padding:0 28px; overflow-x:auto;
+    scrollbar-width:none; -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+  }
+  .tabnav::-webkit-scrollbar{display:none;}
   .tab-btn{
     background:none; border:none; padding:17px 18px 14px; font-size:.92rem;
     color:var(--charcoal-soft); white-space:nowrap; position:relative; letter-spacing:.02em;
+    scroll-snap-align:start;
   }
   .tab-btn.active{color:var(--wine); font-weight:600;}
+  @media (max-width:480px){
+    .tabnav{padding:0 16px; gap:2px;}
+    .tab-btn{padding:14px 12px 12px; font-size:.85rem;}
+  }
   .tab-underline{
     position:absolute; bottom:-1px; left:0; height:2px; background:var(--gold);
     transition:transform .35s cubic-bezier(.65,0,.35,1), width .35s cubic-bezier(.65,0,.35,1);
@@ -145,6 +155,13 @@
   .section-head .kicker svg{width:17px; height:17px; flex:none; color:var(--gold);}
   .section-head h2{font-size:clamp(1.5rem,3vw,2rem); font-weight:600;}
   .section-head p{color:var(--charcoal-soft); margin-top:12px; font-size:.98rem;}
+  .mobile-only-hint{display:none;}
+  @media (max-width:600px){
+    .mobile-only-hint{
+      display:block; font-size:.82rem; color:var(--wine); margin-top:10px;
+      background:var(--blush); padding:10px 14px; border-radius:3px;
+    }
+  }
   .timeline-bloom{width:320px; height:42px; margin-top:20px; max-width:100%;}
 
   .perk-gate{
@@ -379,15 +396,23 @@
   .cal-booking-tag .tag-name{font-size:.75rem; color:rgba(255,255,255,.88); letter-spacing:.03em;}
   .cal-cell.cell-completed .cal-booking-tag .tag-session,
   .cal-cell.cell-completed .cal-booking-tag .tag-name{ color:var(--completed-text); }
-  @media (max-width:600px){
-    .cal-booking-tag .tag-session, .cal-booking-tag .tag-name{font-size:.75rem;}
-    .cal-status-banner{font-size:.75rem;}
-  }
   .cal-date-num{font-family:'Cormorant Garamond', serif; font-size:1.15rem; font-weight:600;}
+
   @media (max-width:600px){
-    .cal-grid{padding:16px 12px 20px;}
-    .cal-cell{padding:5px 5px 4px;}
-    .cal-date-num{font-size:.95rem;}
+    .cal-toolbar{padding:16px 14px;}
+    .cal-month-nav{gap:8px;}
+    .cal-month-label{font-size:1rem; min-width:6.5em;}
+    .cal-legend{font-size:.75rem; gap:10px;}
+    .cal-grid{padding:14px 6px 18px;}
+    .cal-weekdays span{font-size:.75rem;}
+    .cal-days{gap:4px;}
+    .cal-cell{aspect-ratio:1/1.15; padding:4px 3px 3px; border-radius:2px;}
+    .cal-date-num{font-size:.85rem;}
+    .cal-status-banner{font-size:.75rem; line-height:1.15; word-break:break-word;}
+    /* 手機版格子太小，隱藏場次/地點/代稱細節，改靠點擊查看詳情 */
+    .cal-booking-tags{display:none;}
+    .cal-blocked-label{font-size:.75rem; line-height:1.1;}
+    .cal-cell.good-holiday::after{width:19px; height:19px; line-height:17px; font-size:.75rem; top:1px; right:1px;}
   }
 
   /* detail / admin panel */
@@ -430,6 +455,21 @@
   footer .btn{border-color:var(--gold-soft); background:transparent; color:var(--white);}
   footer .btn:hover{background:var(--gold-soft); color:var(--wine-deep);}
   .foot-meta{font-size:.78rem; color:var(--gold-soft); opacity:.75; margin-top:36px;}
+
+  /* ---------- 手機版整體微調 ---------- */
+  @media (max-width:600px){
+    .panel{padding:36px 0 52px;}
+    .section-head h2{font-size:1.3rem;}
+    .plan{padding:24px 18px;}
+    .timeline-col{padding:22px 18px 6px;}
+    .quote-form, .quote-result{padding:20px 16px;}
+    .perk-card{padding:18px 16px;}
+    .perk-gate{padding:32px 18px;}
+    .cal-side{padding:18px 16px;}
+    .quote-total span:last-child{font-size:1.5rem;}
+    footer{padding:44px 0 32px;}
+    footer .wrap{gap:24px;}
+  }
 </style>
 </head>
 <body>
@@ -727,6 +767,7 @@
       <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="9" cy="12" r="6"/><circle cx="16" cy="12" r="6"/></svg>檔期月曆</span>
       <h2>可預約檔期月曆</h2>
       <p>點選日期可查看午／晚宴目前狀態；沒有標示的日期代表尚未有排定紀錄，歡迎直接洽詢。目前開放查詢至 2027 年 12 月 31 日。</p>
+      <p class="mobile-only-hint">📱 手機畫面較小，月曆格子僅顯示狀態顏色，點選日期即可在下方看到完整的場次、地區與代稱資訊。</p>
     </div>
 
     <div class="cal-shell">
