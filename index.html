@@ -420,6 +420,13 @@
     font-size:.75rem; font-weight:700; border:1.5px solid var(--gold-soft);
     box-shadow:0 2px 4px rgba(123,30,58,.4);
   }
+  .cal-cell.has-chun-badge::after{
+    content:"春"; position:absolute; top:3px; right:3px; width:22px; height:22px;
+    line-height:20px; text-align:center; border-radius:4px;
+    background:var(--xi-red); color:var(--gold-soft); font-family:'Noto Serif TC', serif;
+    font-size:.75rem; font-weight:700; border:1.5px solid var(--gold-soft);
+    box-shadow:0 2px 4px rgba(123,30,58,.4);
+  }
   .cal-cell.good-weekday{
     background:#E9E3D6; border-color:#E9E3D6; opacity:.55;
   }
@@ -465,7 +472,7 @@
     /* 手機版格子太小，隱藏場次/地點/代稱細節，改靠點擊查看詳情 */
     .cal-booking-tags{display:none;}
     .cal-blocked-label{font-size:.75rem; line-height:1.1;}
-    .cal-cell.good-holiday::after, .cal-cell.has-xi-badge::after{width:19px; height:19px; line-height:17px; font-size:.75rem; top:1px; right:1px;}
+    .cal-cell.good-holiday::after, .cal-cell.has-xi-badge::after, .cal-cell.has-chun-badge::after{width:19px; height:19px; line-height:17px; font-size:.75rem; top:1px; right:1px;}
   }
 
   /* detail / admin panel */
@@ -832,6 +839,7 @@
         </div>
         <div class="cal-legend">
           <span><span class="legend-badge">囍</span> 2027 吉日（假日）</span>
+          <span><span class="legend-badge" style="border-radius:4px;">春</span> 過年春節期間</span>
           <span>灰底＝平日或休停期間，不開放預約</span>
         </div>
         <div class="sheet-controls">
@@ -1122,8 +1130,8 @@
 
   // 不開放預約期間（可依需求增減區間，label 為選填的小字說明）
   var BLOCKED_RANGES = [
-    {start:'2027-04-01', end:'2027-04-30', label:'家族旅遊'},
-    {start:'2027-02-04', end:'2027-02-10'} // 過年春節，共 7 天
+    {start:'2027-04-01', end:'2027-04-30', label:'不開放預約'},
+    {start:'2027-02-04', end:'2027-02-10', label:'不開放預約', badge:'chun'} // 過年春節，共 7 天
   ];
   function isBlocked(dstr){
     return BLOCKED_RANGES.some(function(r){ return dstr >= r.start && dstr <= r.end; });
@@ -1131,6 +1139,10 @@
   function blockedLabel(dstr){
     var match = BLOCKED_RANGES.find(function(r){ return dstr >= r.start && dstr <= r.end; });
     return match && match.label ? match.label : '';
+  }
+  function blockedBadge(dstr){
+    var match = BLOCKED_RANGES.find(function(r){ return dstr >= r.start && dstr <= r.end; });
+    return match && match.badge ? match.badge : '';
   }
 
   // 2027 結婚好日子（依新人提供的圖片整理）：holiday＝黃色圈（假日）／weekday＝無標記（平日）
@@ -1627,6 +1639,7 @@
           lblEl.textContent = blockLbl;
           cell.appendChild(lblEl);
         }
+        if(blockedBadge(dstr) === 'chun'){ cell.classList.add('has-chun-badge'); }
       }else if(goodType === 'holiday'){
         cell.classList.add('good-holiday');
       }else if(isWeekdayDate){
