@@ -1599,6 +1599,7 @@
       var goodType = GOOD_DATES[dstr];
       var dayBookings = bookingsFor(dstr);
       var blocked = isBlocked(dstr);
+      var isPastNoBooking = dayBookings.length === 0 && isPastDate(dstr);
 
       var num = document.createElement('span');
       num.className = 'cal-date-num';
@@ -1626,7 +1627,7 @@
         cell.appendChild(tagWrap);
       }else if(blocked){
         cell.classList.add('good-weekday'); // 停止接單，反灰
-        if(isPastDate(dstr)){ cell.classList.add('is-past-date'); }
+        if(isPastNoBooking){ cell.classList.add('is-past-date'); }
         var blockLbl = blockedLabel(dstr);
         if(blockLbl){
           var lblEl = document.createElement('span');
@@ -1635,11 +1636,12 @@
           cell.appendChild(lblEl);
         }
         if(blockedBadge(dstr) === 'chun'){ cell.classList.add('has-chun-badge'); }
-      }else if(goodType === 'holiday'){
+      }else if(goodType === 'holiday' && !isPastNoBooking){
         cell.classList.add('good-holiday');
-      }else if(isWeekdayDate){
-        cell.classList.add('good-weekday'); // 平日一律反灰，表示不安排預約
-        if(isPastDate(dstr)){ cell.classList.add('is-past-date'); }
+      }else if(isWeekdayDate || isPastNoBooking){
+        // 平日一律反灰，表示不安排預約；週末若日期已過，同樣反灰＋加深，方便確認已無法再預約
+        cell.classList.add('good-weekday');
+        if(isPastNoBooking){ cell.classList.add('is-past-date'); }
       }
 
       cell.addEventListener('click', function(dstrClosure){
