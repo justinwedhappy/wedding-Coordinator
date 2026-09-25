@@ -323,18 +323,15 @@
   .plan li:first-child{border-top:none;}
   .plan li::before{content:"♡"; position:absolute; left:0; color:var(--gold); font-size:.85rem; line-height:1.5;}
   .plan li b{font-weight:600;}
-  .plan-cta{margin-top:auto; padding-top:26px;}
+  .plan-cta{
+    margin-top:28px; border-top:1.5px solid var(--line); padding-top:22px;
+  }
+  .plan-cta-text{font-size:.92rem; color:var(--charcoal); font-weight:600; margin-bottom:14px;}
+  .plan-cta-buttons{display:flex; gap:12px; flex-wrap:wrap;}
   .plan-footnote{
     margin-top:36px; border-top:1px solid var(--line); padding-top:20px;
     font-size:.82rem; color:var(--charcoal-soft); display:grid; gap:8px;
   }
-
-  .services-subnav{
-    margin-top:22px; text-align:center; font-size:.82rem; color:var(--charcoal-soft);
-  }
-  .services-subnav a{color:var(--charcoal-soft); text-decoration:underline; text-underline-offset:3px;}
-  .services-subnav a:hover{color:var(--wine);}
-  .services-subnav-divider{margin:0 8px; color:var(--line);}
 
   /* ---------- timeline ---------- */
   .timeline-cols{display:block;}
@@ -421,6 +418,11 @@
     background:#E9E3D6; border-color:#E9E3D6; opacity:.55;
   }
   .cal-cell.good-weekday:hover{opacity:.85; border-color:var(--gold);}
+  .cal-cell.good-weekday.is-past-date{
+    background:#B9B3A4; border-color:#B9B3A4; opacity:.6;
+  }
+  .cal-cell.good-weekday.is-past-date .cal-date-num{color:#5C5646;}
+  .cal-cell.good-weekday.is-past-date .cal-blocked-label{color:#5C5646;}
   .cal-cell.good-weekday .cal-date-num{color:#9C9184;}
   .cal-blocked-label{font-size:.75rem; color:#9C9184; line-height:1.2; margin-top:2px;}
 
@@ -642,7 +644,11 @@
         </div>
 
         <div class="plan-cta">
-          <a class="btn" href="#" data-goto="calendar">查詢檔期</a>
+          <p class="plan-cta-text">想知道確切的預算，或是婚禮當天還有沒有空檔？</p>
+          <div class="plan-cta-buttons">
+            <a class="btn" href="#" data-goto="quote">預估服務費用</a>
+            <a class="btn ghost" href="#" data-goto="calendar">查看可預約檔期</a>
+          </div>
         </div>
       </div>
 
@@ -679,7 +685,11 @@
         </div>
 
         <div class="plan-cta">
-          <a class="btn" href="#" data-goto="calendar">查詢檔期</a>
+          <p class="plan-cta-text">想知道確切的預算，或是婚禮當天還有沒有空檔？</p>
+          <div class="plan-cta-buttons">
+            <a class="btn" href="#" data-goto="quote">預估服務費用</a>
+            <a class="btn ghost" href="#" data-goto="calendar">查看可預約檔期</a>
+          </div>
         </div>
       </div>
     </div>
@@ -689,12 +699,6 @@
       <div>💠 <b>額外儀式加碼：</b>若婚宴當天另外包含證婚、文定等額外儀式，加碼服務 NT$1,000。</div>
       <div>💠 <b>現金結算說明：</b>顧問不經手現金，服務結束時間至現場尾款結帳止（不包含事後匯款之尾款服務）。</div>
       <div>💠 <b>客製服務專案：</b>如有多元客製服務專案需求，可另行詢問服務範疇與報價。</div>
-    </div>
-
-    <div class="services-subnav">
-      <a href="#" data-goto="quote">預估服務費用</a>
-      <span class="services-subnav-divider">・</span>
-      <a href="#" data-goto="calendar">查看可預約檔期</a>
     </div>
   </section>
 
@@ -1119,7 +1123,7 @@
 
   // 不開放預約期間（可依需求增減區間，label 為選填的小字說明）
   var BLOCKED_RANGES = [
-    {start:'2026-09-15', end:'2026-10-31', label:'不開放預約'},
+    {start:'2027-09-15', end:'2027-10-31', label:'不開放預約'},
     {start:'2027-02-04', end:'2027-02-10', label:'不開放預約', badge:'chun'} // 過年春節，共 7 天
   ];
   function isBlocked(dstr){
@@ -1622,6 +1626,7 @@
         cell.appendChild(tagWrap);
       }else if(blocked){
         cell.classList.add('good-weekday'); // 停止接單，反灰
+        if(isPastDate(dstr)){ cell.classList.add('is-past-date'); }
         var blockLbl = blockedLabel(dstr);
         if(blockLbl){
           var lblEl = document.createElement('span');
@@ -1634,6 +1639,7 @@
         cell.classList.add('good-holiday');
       }else if(isWeekdayDate){
         cell.classList.add('good-weekday'); // 平日一律反灰，表示不安排預約
+        if(isPastDate(dstr)){ cell.classList.add('is-past-date'); }
       }
 
       cell.addEventListener('click', function(dstrClosure){
